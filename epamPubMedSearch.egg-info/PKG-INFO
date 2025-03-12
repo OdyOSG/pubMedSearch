@@ -1,0 +1,27 @@
+Metadata-Version: 2.2
+Name: epamPubMedSearch
+Version: 0.0.1
+Summary: PubMed Search
+Home-page: 
+Author: EPAM
+Author-email: 
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: requests
+Requires-Dist: langchain_openai
+Requires-Dist: PubMedFetcher
+Dynamic: author
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: requires-dist
+Dynamic: summary
+
+### Installation Instructions
+
+To install the required dependencies for this package, use the following command:
+
+``` sh
+pip install -r requirements.txt
+pip install metapub python-dotenv openai tiktoken langchain langchain_openai langchain_core langchain_community langchain_text_splitters XlsxWriter
+```

@@ -138,7 +138,7 @@ def fetch_pmc_ids(query, retmax=2000, api_key=None, timeout=20):
 
     Parameters:
         query (str): The search query string to execute against the PMC database.
-        retmax (int, optional): The maximum number of PMC IDs to retrieve. Default is 200.
+        retmax (int, optional): The maximum number of PMC IDs to retrieve. Default is 2000.
         api_key (str, optional): An optional API key for higher rate limits with the NCBI API.
         timeout (int, optional): Maximum number of seconds to wait for a response from the API. Default is 20.
 
