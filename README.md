@@ -1,8 +1,10 @@
+## EPAMPubMedSearch
+
 ### Installation Instructions
 
-To install the required dependencies for this package, use the following command:
+To install the required dependencies for this package, run the following command:
 
 ``` sh
-pip install -r requirements.txt
-pip install metapub python-dotenv openai tiktoken langchain langchain_openai langchain_core langchain_community langchain_text_splitters XlsxWriter
+pip install metapub python-dotenv openai tiktoken 
+pip install langchain langchain_openai langchain_core langchain_community langchain_text_splitters XlsxWriter
 ```
