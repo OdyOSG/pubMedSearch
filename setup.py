@@ -1,18 +1,12 @@
 from setuptools import setup, find_packages
 
+
 # Standard Library Imports
 import os
 import re
 import time
 import xml.etree.ElementTree as ET
 
-# import numpy as np
-# import pandas as pd
-# import requests
-
-# Third-Party Library Imports
-# from langchain_openai import AzureChatOpenAI
-# from metapub import PubMedFetcher
 
 setup(
     name="epamPubMedSearch",  # Replace with your package name
@@ -25,6 +19,7 @@ setup(
     url="https://github.com/OdyOSG/pubMedSearch/tree/main",  # Replace with your repo URL
     packages=find_packages(),  # Automatically find sub-packages
     install_requires=[
+      "pyspark",
       "numpy",
       "pandas",
       "requests",

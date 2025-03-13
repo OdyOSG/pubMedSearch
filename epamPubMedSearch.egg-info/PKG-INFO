@@ -2,10 +2,11 @@ Metadata-Version: 2.2
 Name: epamPubMedSearch
 Version: 0.0.1
 Summary: PubMed Search
-Home-page: 
+Home-page: https://github.com/OdyOSG/pubMedSearch/tree/main
 Author: EPAM
 Author-email: 
 Description-Content-Type: text/markdown
+Requires-Dist: pyspark
 Requires-Dist: numpy
 Requires-Dist: pandas
 Requires-Dist: requests
@@ -14,14 +15,18 @@ Requires-Dist: PubMedFetcher
 Dynamic: author
 Dynamic: description
 Dynamic: description-content-type
+Dynamic: home-page
 Dynamic: requires-dist
 Dynamic: summary
 
+## EPAMPubMedSearch
+
 ### Installation Instructions
 
-To install the required dependencies for this package, use the following command:
+To install the required dependencies for this package, run the following command:
 
 ``` sh
-pip install -r requirements.txt
-pip install metapub python-dotenv openai tiktoken langchain langchain_openai langchain_core langchain_community langchain_text_splitters XlsxWriter
+pip install metapub python-dotenv openai tiktoken, XlsxWriter
+pip install langchain langchain_openai langchain_core langchain_community langchain_text_splitters 
 ```
+
