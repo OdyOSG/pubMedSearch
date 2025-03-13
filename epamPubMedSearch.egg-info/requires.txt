@@ -1,6 +1,0 @@
-pyspark
-numpy
-pandas
-requests
-langchain_openai
-PubMedFetcher
