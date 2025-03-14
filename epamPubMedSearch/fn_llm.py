@@ -33,8 +33,8 @@ def createSparkSession() -> SparkSession:
         SparkSession: A Spark session object.
     """
 
-    #if spark is None:
-    spark = SparkSession.builder.getOrCreate()
+    if spark is None:
+     spark = SparkSession.builder.getOrCreate()
     spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
 
     return spark

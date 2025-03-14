@@ -1,3 +1,19 @@
+from pyspark.sql import SparkSession
+
+def createSparkSession() -> SparkSession:
+    """
+    Creates and returns a Spark session.
+
+    Returns:
+        SparkSession: A Spark session object.
+    """
+
+    if spark is None:
+     spark = SparkSession.builder.getOrCreate()
+    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
+
+    return spark
+
 def pubmedSearchTerms():
     """
     Creates a string query to pass to PubMed APIs.
@@ -585,6 +601,9 @@ def run_pubmed_search(
     import re
     import pandas as pd
     from pyspark.sql.types import StructType, StructField, StringType
+    
+    # Set spark session
+    spark = createSparkSession()
 
     # Construct and clean the full search query.
     full_search = f'"{mesh_term}"[Mesh] AND {rwd_terms} AND {date_term}'
