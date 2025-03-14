@@ -603,10 +603,10 @@ def run_pubmed_search(
     import pandas as pd
     from pyspark.sql.types import StructType, StructField, StringType
     
-    # Set spark session
-    if spark is None:
-     spark = SparkSession.builder.getOrCreate()
-    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
+    # # Set spark session
+    # if spark is None:
+    #  spark = SparkSession.builder.getOrCreate()
+    # spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
 
     # Construct and clean the full search query.
     full_search = f'"{mesh_term}"[Mesh] AND {rwd_terms} AND {date_term}'
