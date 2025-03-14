@@ -19,7 +19,7 @@ setup(
     url="https://github.com/OdyOSG/pubMedSearch/tree/main",  # Replace with your repo URL
     packages=find_packages(),  # Automatically find sub-packages
     install_requires=[
-      "pyspark",
+      #"pyspark",
       "numpy",
       "pandas",
       "requests",
