@@ -23,21 +23,21 @@
 ###############################################
 # SECTION 1: Logging and Data Management
 ###############################################
-from pyspark.sql import SparkSession
-
-def createSparkSession() -> SparkSession:
-    """
-    Creates and returns a Spark session.
-
-    Returns:
-        SparkSession: A Spark session object.
-    """
-
-    if spark is None:
-     spark = SparkSession.builder.getOrCreate()
-    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
-
-    return spark
+# from pyspark.sql import SparkSession
+# 
+# def createSparkSession() -> SparkSession:
+#     """
+#     Creates and returns a Spark session.
+# 
+#     Returns:
+#         SparkSession: A Spark session object.
+#     """
+# 
+#     if spark is None:
+#      spark = SparkSession.builder.getOrCreate()
+#     spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
+# 
+#     return spark
 
 
 def initialize_logging():
@@ -79,7 +79,7 @@ def initialize_logging():
     logging.getLogger("org.apache.spark").setLevel(logging.ERROR)
 
 
-def load_existing_delta_data(table_name, spark=createSparkSession):
+def load_existing_delta_data(table_name, spark=None):
     """
     Loads an existing Delta table into a Pandas DataFrame.
     
@@ -108,7 +108,7 @@ def load_existing_delta_data(table_name, spark=createSparkSession):
     return existing_df
 
 
-def write_results_to_delta_table(merged_df, table_name, spark=createSparkSession):
+def write_results_to_delta_table(merged_df, table_name, spark=None):
     """
     Writes a merged Pandas DataFrame to a Spark Delta table.
     
@@ -416,7 +416,7 @@ async def process_pmcid_row_async(row, llm_dict, input_prompt, text_col, logger,
 # SECTION 3: Row and DataFrame Processing
 ###############################################
 
-async def process_df_with_llms_async(df, llm_dict, input_prompt, text_col, logger, saved_table_name, spark=createSparkSession):
+async def process_df_with_llms_async(df, llm_dict, input_prompt, text_col, logger, saved_table_name, spark=None):
     """
     Processes an entire DataFrame asynchronously using the provided LLMs.
     
@@ -498,7 +498,7 @@ async def process_df_with_llms_async(df, llm_dict, input_prompt, text_col, logge
     return cumulative_df
 
 
-def process_df_with_llms(df, llm_dict, input_prompt, saved_table_name, text_col="methods", spark=createSparkSession):
+def process_df_with_llms(df, llm_dict, input_prompt, saved_table_name, text_col="methods", spark=None):
     """
     Synchronous entry point to process a DataFrame through multiple LLMs.
     
@@ -525,6 +525,7 @@ def process_df_with_llms(df, llm_dict, input_prompt, saved_table_name, text_col=
     from pyspark.sql import SparkSession
     initialize_logging()
     logger = logging.getLogger(__name__)
+    
     # Create a Spark session if one is not provided.
     if spark is None:
         spark = SparkSession.builder.getOrCreate()

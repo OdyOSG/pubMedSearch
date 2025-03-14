@@ -1,18 +1,18 @@
-from pyspark.sql import SparkSession
-
-def createSparkSession() -> SparkSession:
-    """
-    Creates and returns a Spark session.
-
-    Returns:
-        SparkSession: A Spark session object.
-    """
-
-    if spark is None:
-     spark = SparkSession.builder.getOrCreate()
-    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
-
-    return spark
+# from pyspark.sql import SparkSession
+# 
+# def createSparkSession() -> SparkSession:
+#     """
+#     Creates and returns a Spark session.
+# 
+#     Returns:
+#         SparkSession: A Spark session object.
+#     """
+# 
+#     if spark is None:
+#      spark = SparkSession.builder.getOrCreate()
+#     spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
+# 
+#     return spark
 
 def pubmedSearchTerms():
     """
