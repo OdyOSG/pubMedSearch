@@ -580,7 +580,8 @@ def run_pubmed_search(
     date_term, 
     pm_key, 
     saved_file_name="searchOutputDf_table", 
-    return_max=2000
+    return_max=2000,
+    spark=None
 ):
     """
     Runs the full pipeline to fetch PubMed data based on search terms,
@@ -603,7 +604,9 @@ def run_pubmed_search(
     from pyspark.sql.types import StructType, StructField, StringType
     
     # Set spark session
-    spark = createSparkSession()
+    if spark is None:
+     spark = SparkSession.builder.getOrCreate()
+    spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
 
     # Construct and clean the full search query.
     full_search = f'"{mesh_term}"[Mesh] AND {rwd_terms} AND {date_term}'
