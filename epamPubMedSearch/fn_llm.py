@@ -26,23 +26,6 @@
 
 from langchain_openai import AzureChatOpenAI
 
-# from pyspark.sql import SparkSession
-# 
-# def createSparkSession() -> SparkSession:
-#     """
-#     Creates and returns a Spark session.
-# 
-#     Returns:
-#         SparkSession: A Spark session object.
-#     """
-# 
-#     if spark is None:
-#      spark = SparkSession.builder.getOrCreate()
-#     spark.conf.set("spark.sql.execution.arrow.pyspark.enabled", "false")
-# 
-#     return spark
-
-
 def initialize_logging():
     """
     Sets up logging configuration.
@@ -97,6 +80,7 @@ def load_existing_delta_data(table_name, spark=None):
     """
     import pandas as pd
     import logging
+    
     try:
         # Check if the table exists in Spark's catalog.
         if spark.catalog.tableExists(table_name):
@@ -525,13 +509,10 @@ def process_df_with_llms(df, llm_dict, input_prompt, saved_table_name, text_col=
     """
     import logging
     import asyncio 
-    #from pyspark.sql import SparkSession
+
     initialize_logging()
     logger = logging.getLogger(__name__)
-    
-    # # Create a Spark session if one is not provided.
-    # if spark is None:
-    #     spark = SparkSession.builder.getOrCreate()
+
     try:
         import nest_asyncio
         nest_asyncio.apply()  # Allow nested event loops if needed.
@@ -634,7 +615,7 @@ def llmDict(llm_dict = [], llmModel=None, apiKey=None, temperature=0.0, azureEnd
   
     # Example llm_dict; ensure your LLM objects are callable with the provided prompt.
 
-    #
+    ###
     from langchain_openai import AzureChatOpenAI
     
     # Check if apiKey variable has been set
@@ -669,3 +650,12 @@ def llmDict(llm_dict = [], llmModel=None, apiKey=None, temperature=0.0, azureEnd
 
     return llm_dict
 
+# Helper function to process each DataFrame
+def process_df(table_name):
+  
+    df = spark.table(table_name).toPandas()
+    phenotype = table_name.replace('PubMedSearchDf', '')
+    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
+    df.insert(0, 'phenotype', phenotype)
+    
+    return df
