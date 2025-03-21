@@ -7,6 +7,8 @@ import re
 import time
 import xml.etree.ElementTree as ET
 
+#from langchain_openai import AzureChatOpenAI
+
 
 setup(
     name="epamPubMedSearch",  # Replace with your package name
@@ -19,7 +21,7 @@ setup(
     url="https://github.com/OdyOSG/pubMedSearch/tree/main",  # Replace with your repo URL
     packages=find_packages(),  # Automatically find sub-packages
     install_requires=[
-      #"pyspark",
+      "pyspark",
       "numpy",
       "pandas",
       "requests",

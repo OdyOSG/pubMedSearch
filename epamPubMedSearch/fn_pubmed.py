@@ -255,7 +255,7 @@ def display_download_link(output_filename):
     
 def export_df_to_excel(
     df,
-    output_filename="odysseus.pubmed.ds0084_literature_search.xlsx",
+    output_filename,
     sheet_name="Sheet1",
     table_style="TableStyleMedium2",
     long_text_width=50,

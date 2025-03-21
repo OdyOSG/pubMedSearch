@@ -23,6 +23,9 @@
 ###############################################
 # SECTION 1: Logging and Data Management
 ###############################################
+
+from langchain_openai import AzureChatOpenAI
+
 # from pyspark.sql import SparkSession
 # 
 # def createSparkSession() -> SparkSession:
@@ -522,13 +525,13 @@ def process_df_with_llms(df, llm_dict, input_prompt, saved_table_name, text_col=
     """
     import logging
     import asyncio 
-    from pyspark.sql import SparkSession
+    #from pyspark.sql import SparkSession
     initialize_logging()
     logger = logging.getLogger(__name__)
     
-    # Create a Spark session if one is not provided.
-    if spark is None:
-        spark = SparkSession.builder.getOrCreate()
+    # # Create a Spark session if one is not provided.
+    # if spark is None:
+    #     spark = SparkSession.builder.getOrCreate()
     try:
         import nest_asyncio
         nest_asyncio.apply()  # Allow nested event loops if needed.
@@ -626,24 +629,43 @@ def inputPrompt():
   return input_prompt
 
 
-def llmDict(dialKey, temperature=0.0, azureEndpoint="https://ai-proxy.lab.epam.com"):
+
+def llmDict(llm_dict = [], llmModel=None, apiKey=None, temperature=0.0, azureEndpoint="https://ai-proxy.lab.epam.com"):
   
-  # Example llm_dict; ensure your LLM objects are callable with the provided prompt.
-  llm_dict = {
-      "claude_sonnet": AzureChatOpenAI(
-          api_key=dialKey,
-          api_version="2024-08-01-preview",
-          azure_endpoint=azureEndpoint,
-          model="anthropic.claude-v3-sonnet",
-          temperature=temperature,
-      ),
-      "gpt-4o-full": AzureChatOpenAI(
-          api_key=dialKey,
-          api_version="2024-08-01-preview",
-          azure_endpoint=azureEndpoint,
-          model="gpt-4o",
-          temperature=temperature,
-      ),
-  }
-  return llm_dict
+    # Example llm_dict; ensure your LLM objects are callable with the provided prompt.
+
+    #
+    from langchain_openai import AzureChatOpenAI
+    
+    # Check if apiKey variable has been set
+    if apiKey is None:
+        print("API key has not been set. Please provide and run again.")
+        
+    # Check if llmModel variable has been set
+    if llmModel is None:
+        print("LLM model has not been set. Please provide and run again.")
+    elif llmModel == "claude_sonnet":
+        llm_dict = {
+          "claude_sonnet": AzureChatOpenAI(
+            api_key=apiKey,
+            api_version="2024-08-01-preview",
+            azure_endpoint=azureEndpoint,
+            model="anthropic.claude-v3-sonnet",
+            temperature=temperature,
+         )
+        }
+    elif llmModel == "gpt-4o-full":  
+        llm_dict = {
+          "gpt-4o-full": AzureChatOpenAI(
+            api_key=apiKey,
+            api_version="2024-08-01-preview",
+            azure_endpoint=azureEndpoint,
+            model="gpt-4o",
+            temperature=temperature,
+         )
+        }
+    else:
+      print("Invalid LLM model provided. Please provide valid LLM model and run again.")
+
+    return llm_dict
 
