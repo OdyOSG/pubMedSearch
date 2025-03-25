@@ -732,7 +732,8 @@ def run_pubmed_search(
     spark_df = spark_df.withColumn('phenotype', lit(phenotype))
     
     # Reorder the columns 
-    newColumnOrder = ['phenotype', empty_schema]
+    columns = spark_df.columns
+    newColumnOrder = ['phenotype', columns]
     
     # Reorder the columns and add to the final DataFrame
     spark_df = spark_df.select(newColumnOrder)
