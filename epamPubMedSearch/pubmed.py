@@ -235,7 +235,7 @@ def copy_to_dbfs(temp_file_path, output_filename):
     os.remove(temp_file_path)
 
 
-def display_download_link(output_filename):
+def display_download_link(displayHTML, output_filename):
     """
     Displays an HTML download link for the Excel file.
     """
