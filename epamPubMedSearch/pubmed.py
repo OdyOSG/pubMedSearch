@@ -724,6 +724,11 @@ def run_pubmed_search(
         spark_df = spark.createDataFrame([], empty_schema)
     else:
         spark_df = spark.createDataFrame(searchOutputDf)
+    
+    
+    phenotype = mesh_term.replace('PubMedSearchDf', '')
+    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
+    saved_file_name = saved_file_name.withColumn("phenotype", phenotype)
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
