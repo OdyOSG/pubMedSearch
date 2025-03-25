@@ -246,13 +246,13 @@ def display_download_link(displayHTML, output_filename):
 def export_df_to_excel(
     df,
     output_filename,
-    displayHTML,
     sheet_name="Sheet1",
     table_style="TableStyleMedium2",
     long_text_width=50,
     short_text_max_width=30,
     row_height=60,
     columns_to_drop=["fullXML"],
+    displayHTML=None,
     download_link=True
 ):
     """
