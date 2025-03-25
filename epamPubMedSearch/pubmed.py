@@ -223,6 +223,7 @@ def copy_to_dbfs(temp_file_path, output_filename):
     """
     # Import os locally
     import os
+    import dbutils
     
     dbfs_destination = f'/FileStore/{output_filename}'
     # Copy the temporary file to DBFS using Databricks dbutils (assumed to be available)
