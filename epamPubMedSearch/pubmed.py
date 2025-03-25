@@ -707,6 +707,7 @@ def run_pubmed_search(
     # Convert to Spark DataFrame (or create an empty one with the correct schema).
     if searchOutputDf.empty:
         empty_schema = StructType([
+            StructField("phenotype", StringType(), True),
             StructField("pmid", StringType(), True),
             StructField("pmcid", StringType(), True),
             StructField("title", StringType(), True),
