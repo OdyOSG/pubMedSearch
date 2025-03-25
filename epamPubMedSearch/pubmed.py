@@ -586,6 +586,7 @@ def run_pubmed_search(
     """
     import re
     import pandas as pd
+    from pyspark.sql.functions import lit
     from pyspark.sql.types import StructType, StructField, StringType
 
     # Construct and clean the full search query.
@@ -728,7 +729,7 @@ def run_pubmed_search(
     
     phenotype = mesh_term.replace('PubMedSearchDf', '')
     phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
-    saved_file_name = saved_file_name.withColumn("phenotype", phenotype)
+    saved_file_name = saved_file_name.withColumn("phenotype", lit(phenotype))
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
