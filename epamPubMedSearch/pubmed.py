@@ -736,3 +736,12 @@ def run_pubmed_search(
     return result_df.toPandas()
   
   
+# Helper function to process each DataFrame
+def process_df(table_name):
+  
+    df = spark.table(table_name).toPandas()
+    phenotype = table_name.replace('PubMedSearchDf', '')
+    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
+    df.insert(0, 'phenotype', phenotype)
+    
+    return df
