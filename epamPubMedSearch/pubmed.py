@@ -284,7 +284,8 @@ def export_df_to_excel(
     
     # Display an HTML download link if required.
     if download_link:
-        display_download_link(displayHTML, output_filename = output_filename)
+        displayHTML(f'<a href="/files/{output_filename}" download>Download Excel File</a>')
+        #display_download_link(displayHTML, output_filename = output_filename)
 
 
 def fetch_pmc_ids(query, retmax=2000, api_key=None, timeout=20):
