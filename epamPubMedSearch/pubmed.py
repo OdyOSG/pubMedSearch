@@ -736,7 +736,8 @@ def run_pubmed_search(
     newColumnOrder = ['phenotype', columns]
     
     # Reorder the columns and add to the final DataFrame
-    spark_df = spark_df.select([col(c) for c in newColumnOrder])
+    #spark_df = spark_df.select([col(c) for c in newColumnOrder])
+    spark_df = spark_df.select(*newColumnOrder)
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
