@@ -737,7 +737,7 @@ def run_pubmed_search(
   
   
 # Helper function to process each DataFrame
-def process_df(table_name):
+def process_df(table_name, spark=None):
   
     df = spark.table(table_name).toPandas()
     phenotype = table_name.replace('PubMedSearchDf', '')
