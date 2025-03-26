@@ -151,12 +151,19 @@ def clean_dataframe(df, columns_to_drop):
     """
     Replace null values and cells with "N/A" with empty strings,
     and drop specified columns if they exist in the DataFrame.
+    
+    Parameters:
+      df (DataFrame): A DataFrame
+      columns_to_drop (str): Name of columns to drop from DataFrame
+      
+    Returns:
+      The path to the temporary Excel file.
     """
     # No external modules needed for cleaning
     df = df.fillna('').replace("N/A", "", regex=False)
     for col in columns_to_drop:
-        if col in df.columns:
-            df = df.drop(columns=[col])
+      if col in df.columns:
+        df = df.drop(columns=[col])
     return df
   
 
@@ -165,6 +172,14 @@ def write_dataframe_to_excel(df, sheet_name, table_style, row_height, long_text_
     Write the DataFrame to a temporary Excel file using XlsxWriter.
     Creates an Excel table over the data, sets a fixed row height,
     enables text wrapping, and adjusts column widths.
+    
+    Parameters:
+      df (pd.DataFrame): The DataFrame to export.
+      sheet_name (str): The Excel sheet name.
+      table_style (str): The Excel table style.
+      long_text_width (int): Column width for columns with long text.
+      short_text_max_width (int): Maximum width for columns with shorter text.
+      row_height (int): Fixed row height for each row.
     
     Returns:
       The path to the temporary Excel file.
@@ -220,10 +235,19 @@ def copy_to_dbfs(temp_file_path, output_filename):
     """
     Copies the Excel file from the temporary file location to the DBFS destination,
     and removes the local temporary file.
+    
+    Parameters:
+      temp_file_path(str): Temporary path to save Excel file
+      output_filename (str): The name of the output file
     """
-    # Import os locally
+    
     import os
     import IPython
+    
+    if 'DATABRICKS_RUNTIME' in os.environ:
+      print("This code is running inside Databricks.")
+    else:
+      print("This code is running outside Databricks.")
 
     # Initialize dbutils if not already available
     dbutils = IPython.get_ipython().user_ns['dbutils']
@@ -238,6 +262,10 @@ def copy_to_dbfs(temp_file_path, output_filename):
 def display_download_link(displayHTML, output_filename):
     """
     Displays an HTML download link for the Excel file.
+    
+    Parameters:
+      displayHTML (None)
+      output_filename (str): 
     """
     # displayHTML is assumed to be available in the environment (e.g. Databricks)
     displayHTML(f'<a href="/files/{output_filename}" download>Download Excel File</a>')
@@ -285,7 +313,6 @@ def export_df_to_excel(
     # Display an HTML download link if required.
     if download_link:
         displayHTML(f'<a href="/files/{output_filename}" download>Download Excel File</a>')
-        #display_download_link(displayHTML, output_filename = output_filename)
 
 
 def fetch_pmc_ids(query, retmax=2000, api_key=None, timeout=20):
@@ -308,10 +335,6 @@ def fetch_pmc_ids(query, retmax=2000, api_key=None, timeout=20):
     Logs:
         Informational logs on request status and number of PMC IDs fetched.
         Error logs detailing exceptions if they occur.
-
-    Example:
-        pmc_ids = fetch_pmc_ids("machine learning", retmax=50)
-        print(pmc_ids)
     """
     import requests
     import logging
@@ -734,18 +757,14 @@ def run_pubmed_search(
     else:
         spark_df = spark.createDataFrame(searchOutputDf)
     
-    
+    # Create phenotype variable out of mesh_term provided
     phenotype = mesh_term.replace('PubMedSearchDf', '')
-    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
-    spark_df = spark_df.withColumn('phenotype', lit(phenotype))
     
-    # # Reorder the columns 
-    # columns = spark_df.columns
-    # newColumnOrder = ['phenotype', columns]
-    # 
-    # # Reorder the columns and add to the final DataFrame
-    # #spark_df = spark_df.select([col(c) for c in newColumnOrder])
-    # spark_df = spark_df.select(*newColumnOrder)
+    # Remove any gaps and special characters
+    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
+    
+    # Add the column to the data frame
+    spark_df = spark_df.withColumn('phenotype', lit(phenotype))
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
@@ -756,17 +775,3 @@ def run_pubmed_search(
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
     return result_df.toPandas()
-  
-  
-# Helper function to process each DataFrame
-def process_df(table_name, spark=None):
-    
-    # import re
-    # import pandas as pd
-  
-    df = spark.table(table_name).toPandas()
-    phenotype = table_name.replace('PubMedSearchDf', '')
-    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
-    df.insert(0, 'phenotype', phenotype)
-    
-    return df
