@@ -159,7 +159,7 @@ def clean_dataframe(df, columns_to_drop):
     Returns:
       The path to the temporary Excel file.
     """
-    # No external modules needed for cleaning
+    
     df = df.fillna('').replace("N/A", "", regex=False)
     for col in columns_to_drop:
       if col in df.columns:
@@ -184,7 +184,7 @@ def write_dataframe_to_excel(df, sheet_name, table_style, row_height, long_text_
     Returns:
       The path to the temporary Excel file.
     """
-    # Encapsulate required imports
+
     import tempfile
     import pandas as pd
     
@@ -243,11 +243,14 @@ def copy_to_dbfs(temp_file_path, output_filename):
     
     import os
     import IPython
+    import sys
     
     if 'DATABRICKS_RUNTIME' in os.environ:
       print("This code is running inside Databricks.")
+      sys.stdout.flush()
     else:
       print("This code is running outside Databricks.")
+      sys.stdout.flush()
 
     # Initialize dbutils if not already available
     dbutils = IPython.get_ipython().user_ns['dbutils']

@@ -23,6 +23,7 @@ setup(
       "pandas",
       "requests",
       "PubMedFetcher",
+      "XlsxWriter",
       "IPython"
     ]
 )
