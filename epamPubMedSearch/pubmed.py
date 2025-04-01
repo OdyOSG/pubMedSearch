@@ -144,10 +144,14 @@ def pubmedSearchTerms():
 
     # Final structured PubMed query
     rwd_terms = f"{included_query} NOT {exclusion_query}"
+    
     return rwd_terms
 
 
-def clean_dataframe(df, columns_to_drop):
+def clean_dataframe(
+    df, 
+    columns_to_drop
+    ):
     """
     Replace null values and cells with "N/A" with empty strings,
     and drop specified columns if they exist in the DataFrame.
@@ -164,10 +168,18 @@ def clean_dataframe(df, columns_to_drop):
     for col in columns_to_drop:
       if col in df.columns:
         df = df.drop(columns=[col])
+        
     return df
   
 
-def write_dataframe_to_excel(df, sheet_name, table_style, row_height, long_text_width, short_text_max_width):
+def write_dataframe_to_excel(
+    df, 
+    sheet_name, 
+    table_style, 
+    row_height, 
+    long_text_width, 
+    short_text_max_width
+    ):
     """
     Write the DataFrame to a temporary Excel file using XlsxWriter.
     Creates an Excel table over the data, sets a fixed row height,
@@ -231,7 +243,11 @@ def write_dataframe_to_excel(df, sheet_name, table_style, row_height, long_text_
     
     return temp_file_path
   
-def copy_to_dbfs(temp_file_path, output_filename):
+  
+def copy_to_dbfs(
+    temp_file_path, 
+    output_filename
+    ):
     """
     Copies the Excel file from the temporary file location to the DBFS destination,
     and removes the local temporary file.
@@ -255,7 +271,10 @@ def copy_to_dbfs(temp_file_path, output_filename):
     os.remove(temp_file_path)
 
 
-def display_download_link(displayHTML, output_filename):
+def display_download_link(
+    displayHTML, 
+    output_filename
+    ):
     """
     Displays an HTML download link for the Excel file.
     
@@ -278,7 +297,7 @@ def export_df_to_excel(
     row_height=60,
     columns_to_drop=["fullXML"],
     download_link=True
-):
+    ):
     """
     Exports a Pandas DataFrame to an Excel file in DBFS as an Excel table with text wrapping enabled
     for all cells. It replaces null or "N/A" values with empty strings, drops specified columns, and
@@ -311,7 +330,12 @@ def export_df_to_excel(
         displayHTML(f'<a href="/files/{output_filename}" download>Download Excel File</a>')
 
 
-def fetch_pmc_ids(query, retmax=2000, api_key=None, timeout=20):
+def fetch_pmc_ids(
+    query, 
+    retmax=2000, 
+    api_key=None, 
+    timeout=20
+    ):
     """
     Fetches PubMed Central (PMC) IDs based on a given search query using the Entrez API.
 
@@ -381,7 +405,10 @@ def fetch_pmc_ids(query, retmax=2000, api_key=None, timeout=20):
         raise
     
     
-def fetch_pubmed_fulltext_and_metadata(pmcids, api_key):
+def fetch_pubmed_fulltext_and_metadata(
+    pmcids, 
+    api_key
+    ):
     """
     Fetches metadata, full text/XML content, and article sections (excluding abstracts)
     for a list of PMCIDs from PubMed.
@@ -582,6 +609,7 @@ def fetch_pubmed_fulltext_and_metadata(pmcids, api_key):
     # Reorder columns: 'pmid' and 'pmcid' first
     all_cols = df.columns.tolist()
     ordered_cols = ['pmid', 'pmcid'] + [col for col in all_cols if col not in ('pmid', 'pmcid')]
+    
     return df[ordered_cols]
   
 
@@ -593,7 +621,7 @@ def run_pubmed_search(
     saved_file_name, 
     return_max=2000,
     spark=None
-):
+    ):
     """
     Runs the full pipeline to fetch PubMed data based on search terms,
     write the data to a Delta table in Databricks under the specified name,
@@ -770,4 +798,5 @@ def run_pubmed_search(
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
+    
     return result_df.toPandas()
