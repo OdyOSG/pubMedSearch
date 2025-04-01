@@ -244,13 +244,6 @@ def copy_to_dbfs(temp_file_path, output_filename):
     import os
     import IPython
     import sys
-    
-    if 'DATABRICKS_RUNTIME' in os.environ:
-      print("This code is running inside Databricks.")
-      sys.stdout.flush()
-    else:
-      print("This code is running outside Databricks.")
-      sys.stdout.flush()
 
     # Initialize dbutils if not already available
     dbutils = IPython.get_ipython().user_ns['dbutils']

@@ -1,1 +1,1 @@
-import epamPubMedSearch.pubmed as pubmed
+import epamPubMedSearch.pubmed as pmed
