@@ -161,7 +161,7 @@ def clean_dataframe(
       columns_to_drop (str): Name of columns to drop from DataFrame
       
     Returns:
-      The path to the temporary Excel file.
+      pd.DataFrame: Cleaned DataFrame.
     """
     
     df = df.fillna('').replace("N/A", "", regex=False)
@@ -278,7 +278,7 @@ def display_download_link(
     
     Parameters:
       displayHTML (None)
-      output_filename (str): 
+      output_filename (str): The name of the output file.
     """
     # displayHTML is assumed to be available in the environment (e.g. Databricks)
     displayHTML(f'<a href="/files/{output_filename}" download>Download Excel File</a>')
@@ -632,6 +632,7 @@ def run_pubmed_search(
         pm_key (str): API key for PubMed API access.
         saved_file_name (str): The name of the Delta table to write to and read from.
         return_max (int): Maximum number of results to fetch.
+        spark (SparkSession, optional): Spark session to use for writing and reading Delta tables.
 
     Returns:
         pd.DataFrame or Spark DataFrame: The DataFrame read back from the Delta table.

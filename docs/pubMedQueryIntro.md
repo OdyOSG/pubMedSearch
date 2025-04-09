@@ -4,6 +4,3 @@ The search prioritizes studies from various international databases that describ
 and defining health conditions or outcomes (including the use of phenotyping algorithms and ICD coding). 
 It is constructed to exclude clinical trials, genetic studies, and other publication types not focused on observational research using routinely collected healthcare data. 
 It includes search terms for validation.
-
-
-test
