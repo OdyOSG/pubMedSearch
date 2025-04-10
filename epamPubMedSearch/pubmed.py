@@ -800,4 +800,6 @@ def run_pubmed_search(
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
     
+    result_df = result_df.dropDuplicates()
+    
     return result_df.toPandas()
