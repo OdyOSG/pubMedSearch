@@ -825,13 +825,13 @@ def run_pubmed_search(
         spark_df = spark.createDataFrame(searchOutputDf)
     
     # Create phenotype variable out of mesh_term provided
-    phenotype = mesh_term.replace('PubMedSearchDf', '')
+    pheno = mesh_term.replace('PubMedSearchDf', '')
     
     # Remove any gaps and special characters
-    phenotype = re.sub(r'(?<!^)(?=[A-Z])', ' ', phenotype).title()
+    pheno = re.sub(r'(?<!^)(?=[A-Z])', ' ', pheno).title()
     
     # Add the column to the data frame
-    spark_df = spark_df.withColumn('phenotype', lit(phenotype))
+    spark_df = spark_df.withColumn('phenotype', lit(pheno))
     
     # Load initial Delta table to filter out already processed PMCID values
     existing_df = load_existing_delta_data(table_name=saved_file_name, spark=spark)
@@ -849,7 +849,7 @@ def run_pubmed_search(
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     #result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
-    result_df = spark.sql(f"SELECT * FROM {saved_file_name} WHERE phenotype = {phenotype}")
+    result_df = spark.sql(f"SELECT * FROM {saved_file_name} WHERE phenotype = {pheno}")
     
     # Drop duplicate rows based on "pmcid" column
     result_df = result_df.dropDuplicates(subset=["pmcid"])
