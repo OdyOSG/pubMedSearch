@@ -831,13 +831,12 @@ def run_pubmed_search(
     # Add the column to the data frame
     spark_df = spark_df.withColumn('phenotype', lit(pheno))
     
-    # Load initial Delta table to filter out already processed PMCID values
+    # Load Delta table to filter out already added PMCID values
     existing_df = load_existing_delta_data(table_name=saved_file_name, spark=spark)
     processed_pmids = get_processed_pmids(existing_df=existing_df)
     
-    # Filter out rows that have already been processed.
+    # Filter out rows that have already been added
     spark_df = spark_df.filter(~spark_df["pmcid"].isin(processed_pmids))
-    #logger.info(f"Skipping inserting {processed_pmids} PMCID(s) that are already in the SQL table.")
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
@@ -846,8 +845,6 @@ def run_pubmed_search(
         .saveAsTable(saved_file_name)
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
-    #result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
-    #result_df = spark.sql(f"SELECT * FROM {saved_file_name} WHERE phenotype = {mesh_term}")
     result_df = spark.sql("SELECT * FROM {} WHERE phenotype = '{}'".format(saved_file_name, mesh_term))
     
     # Drop duplicate rows based on "pmcid" column
