@@ -822,7 +822,7 @@ def run_pubmed_search(
     # create_table_query = 
     
     # Execute the SQL query to create the table
-    spark.sql(f"CREATE TABLE {saved_file_name} ({empty_schema}) USING DELTA")
+    spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
     
     #
     unique_pmcids = spark.sql(f"SELECT DISTINCT pmcid FROM {saved_file_name}")
