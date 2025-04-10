@@ -833,19 +833,19 @@ def run_pubmed_search(
     # Add the column to the data frame
     spark_df = spark_df.withColumn('phenotype', lit(phenotype))
     
-    #
-    spark.sql(f"DROP TABLE {saved_file_name}")
-
-    # Execute the SQL query to create the table
-    #spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
-    spark.catalog.createTable(saved_file_name, schema=empty_schema)
-    
-    #
-    unique_pmcids = spark.sql(f"SELECT DISTINCT pmcid FROM {saved_file_name}")
-    #
-    pmcid_list = [row['pmcid'] for row in unique_pmcids.collect()]
-    #
-    filtered_df = spark_df.filter(spark_df['pmcid'].isin(pmcid_list))
+    # #
+    # spark.sql(f"DROP TABLE IF EXISTS {saved_file_name}")
+    # 
+    # # Execute the SQL query to create the table
+    # #spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
+    # spark.catalog.createTable(saved_file_name, schema=empty_schema)
+    # 
+    # #
+    # unique_pmcids = spark.sql(f"SELECT DISTINCT pmcid FROM {saved_file_name}")
+    # #
+    # pmcid_list = [row['pmcid'] for row in unique_pmcids.collect()]
+    # #
+    # filtered_df = spark_df.filter(spark_df['pmcid'].isin(pmcid_list))
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
