@@ -852,8 +852,10 @@ def run_pubmed_search(
         .option("overwriteSchema", "true") \
         .mode("append") \
         .saveAsTable(saved_file_name)
-        
-        #.mode("overwrite") \
+    
+    #
+    pmcid <- "pmcid"
+    spark.sql(f" CREATE OR REPLACE TABLE {saved_file_name} AS SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY {pmcid} ORDER BY {pmcid}) AS row_num FROM {saved_file_name}) tmp WHERE row_num = 1")
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
