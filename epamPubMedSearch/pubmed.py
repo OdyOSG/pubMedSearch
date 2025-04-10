@@ -846,6 +846,18 @@ def run_pubmed_search(
     # pmcid_list = [row['pmcid'] for row in unique_pmcids.collect()]
     # #
     # filtered_df = spark_df.filter(spark_df['pmcid'].isin(pmcid_list))
+    
+    # Load initial Delta table to filter out already processed PMCID values
+    existing_df = load_existing_delta_data(table_name=saved_file_name, spark=spark)
+    processed_pmids = get_processed_pmids(existing_df=existing_df)
+    
+    # Filter out rows that have already been processed.
+    spark_df = spark_df[~spark_df["pmcid"].isin(processed_pmids)].copy()
+    total_tasks = spark_df.shape[0]
+    logger.info(f"Skipping processing {processed_pmids} PMCID(s) that have already been processed.")
+    logger.info(f"Processing {total_tasks} new PMCID(s) out of {spark_df.shape[0]} total.")
+    
+    
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
@@ -864,3 +876,28 @@ def run_pubmed_search(
     result_df = result_df.dropDuplicates(subset=["pmcid"])
     
     return result_df.toPandas()
+
+def load_existing_delta_data(table_name, spark):
+    import logging
+    import pandas as pd
+    
+    try:
+        if spark.catalog.tableExists(table_name):
+            existing_df = spark.table(table_name).toPandas()
+            logging.debug("Existing table found. Loaded current data.")
+        else:
+            existing_df = pd.DataFrame()
+            logging.debug("No existing table found. Starting fresh.")
+    except Exception as e:
+        import pandas as pd
+        existing_df = pd.DataFrame()
+        logging.error(f"Error loading existing data: {e}")
+        
+    return existing_df
+
+
+def get_processed_pmids(existing_df):
+    import pandas as pd
+    if not existing_df.empty and "pmcid" in existing_df.columns:
+        return set(existing_df["pmcid"].unique())
+    return set()
