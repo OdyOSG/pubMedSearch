@@ -661,6 +661,32 @@ def run_pubmed_search(
         f"PMCIDs Fetched: {len(pmcids)}; "
         f"Articles Retrieved: {len(searchOutputDf)}."
     )
+    
+    #
+    empty_schema = StructType([
+        StructField("phenotype", StringType(), True),
+        StructField("pmid", StringType(), True),
+        StructField("pmcid", StringType(), True),
+        StructField("title", StringType(), True),
+        StructField("firstAuthor", StringType(), True),
+        StructField("lastAuthor", StringType(), True),
+        StructField("authorAffiliations", StringType(), True),
+        StructField("abstract", StringType(), True),
+        StructField("fullText", StringType(), True),
+        StructField("meshTags", StringType(), True),
+        StructField("keyWords", StringType(), True),
+        StructField("journal", StringType(), True),
+        StructField("yearOfPublication", StringType(), True),
+        StructField("publicationDate", StringType(), True),
+        StructField("doi", StringType(), True),
+        StructField("fullXML", StringType(), True),
+        StructField("introduction", StringType(), True),
+        StructField("methods", StringType(), True),
+        StructField("results", StringType(), True),
+        StructField("discussion", StringType(), True),
+        StructField("log", StringType(), True),
+        StructField("run_log", StringType(), True)
+    ])
 
     # If the DataFrame is not empty, prepend run_info to each article's log and add a new column.
     if not searchOutputDf.empty:
