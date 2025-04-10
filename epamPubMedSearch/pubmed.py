@@ -833,6 +833,8 @@ def run_pubmed_search(
     # Add the column to the data frame
     spark_df = spark_df.withColumn('phenotype', lit(phenotype))
     
+    #
+    spark.sql(f"DROP TABLE {saved_file_name}")
 
     # Execute the SQL query to create the table
     #spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
