@@ -801,6 +801,6 @@ def run_pubmed_search(
     result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
     
     # Drop duplicate rows based on "pmcid" column
-    result_df = result_df.dropDuplicates("pmcid")
+    result_df = result_df.dropDuplicates(subset=["pmcid"])
     
     return result_df.toPandas()
