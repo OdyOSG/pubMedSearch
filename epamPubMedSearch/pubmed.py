@@ -664,7 +664,6 @@ def run_pubmed_search(
     
     #
     empty_schema = StructType([
-        StructField("phenotype", StringType(), True),
         StructField("pmid", StringType(), True),
         StructField("pmcid", StringType(), True),
         StructField("title", StringType(), True),
@@ -788,7 +787,6 @@ def run_pubmed_search(
     # Convert to Spark DataFrame (or create an empty one with the correct schema).
     if searchOutputDf.empty:
         empty_schema = StructType([
-            StructField("phenotype", StringType(), True),
             StructField("pmid", StringType(), True),
             StructField("pmcid", StringType(), True),
             StructField("title", StringType(), True),
@@ -849,7 +847,8 @@ def run_pubmed_search(
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     #result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
-    result_df = spark.sql(f"SELECT * FROM {saved_file_name} WHERE phenotype = {mesh_term}")
+    #result_df = spark.sql(f"SELECT * FROM {saved_file_name} WHERE phenotype = {mesh_term}")
+    result_df = spark.sql("SELECT * FROM {} WHERE phenotype = '{}'".format(saved_file_name, mesh_term))
     
     # Drop duplicate rows based on "pmcid" column
     result_df = result_df.dropDuplicates(subset=["pmcid"])
