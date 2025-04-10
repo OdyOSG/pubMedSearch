@@ -852,12 +852,12 @@ def run_pubmed_search(
     processed_pmids = get_processed_pmids(existing_df=existing_df)
     
     # Filter out rows that have already been processed.
-    spark_df = spark_df[~spark_df["pmcid"].isin(processed_pmids)].copy()
+    #spark_df = spark_df[~spark_df["pmcid"].isin(processed_pmids)].copy()
+    
+    spark_df = spark_df.filter[~spark_df["pmcid"].isin(processed_pmids)]
     total_tasks = spark_df.shape[0]
     logger.info(f"Skipping processing {processed_pmids} PMCID(s) that have already been processed.")
     logger.info(f"Processing {total_tasks} new PMCID(s) out of {spark_df.shape[0]} total.")
-    
-    
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
