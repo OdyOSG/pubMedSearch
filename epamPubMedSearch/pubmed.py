@@ -818,13 +818,11 @@ def run_pubmed_search(
     # Drop the table if it exists (optional, depends on whether you want to overwrite)
     spark.sql(f"DROP TABLE IF EXISTS {saved_file_name}")
     
-    # Create the table using the provided schema
-    create_table_query = f"""
-    CREATE TABLE {saved_file_name} ({empty_schema}) USING DELTA
-    """
+    # # Create the table using the provided schema
+    # create_table_query = 
     
     # Execute the SQL query to create the table
-    spark.sql(create_table_query)
+    spark.sql(f"""CREATE TABLE {saved_file_name} ({empty_schema}) USING DELTA""")
     
     #
     unique_pmcids = spark.sql(f"SELECT DISTINCT pmcid FROM {saved_file_name}")
