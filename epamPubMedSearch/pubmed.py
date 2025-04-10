@@ -848,7 +848,8 @@ def run_pubmed_search(
         .saveAsTable(saved_file_name)
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
-    result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
+    #result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
+    result_df = spark.sql(f"SELECT * FROM {saved_file_name} WHERE phenotype = {phenotype}")
     
     # Drop duplicate rows based on "pmcid" column
     result_df = result_df.dropDuplicates(subset=["pmcid"])
