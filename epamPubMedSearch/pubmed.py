@@ -815,14 +815,10 @@ def run_pubmed_search(
     # Add the column to the data frame
     spark_df = spark_df.withColumn('phenotype', lit(phenotype))
     
-    # Drop the table if it exists (optional, depends on whether you want to overwrite)
-    spark.sql(f"DROP TABLE IF EXISTS {saved_file_name}")
-    
-    # # Create the table using the provided schema
-    # create_table_query = 
-    
+
     # Execute the SQL query to create the table
-    spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
+    #spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
+    spark.catalog.createTable(saved_file_name, schema=empty_schema)
     
     #
     unique_pmcids = spark.sql(f"SELECT DISTINCT pmcid FROM {saved_file_name}")
