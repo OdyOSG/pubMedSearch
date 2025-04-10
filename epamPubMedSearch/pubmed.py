@@ -833,28 +833,12 @@ def run_pubmed_search(
     # Add the column to the data frame
     spark_df = spark_df.withColumn('phenotype', lit(phenotype))
     
-    # #
-    # spark.sql(f"DROP TABLE IF EXISTS {saved_file_name}")
-    # 
-    # # Execute the SQL query to create the table
-    # #spark.sql(f"CREATE TABLE {saved_file_name} {empty_schema} USING DELTA")
-    # spark.catalog.createTable(saved_file_name, schema=empty_schema)
-    # 
-    # #
-    # unique_pmcids = spark.sql(f"SELECT DISTINCT pmcid FROM {saved_file_name}")
-    # #
-    # pmcid_list = [row['pmcid'] for row in unique_pmcids.collect()]
-    # #
-    # filtered_df = spark_df.filter(spark_df['pmcid'].isin(pmcid_list))
-    
     # Load initial Delta table to filter out already processed PMCID values
     existing_df = load_existing_delta_data(table_name=saved_file_name, spark=spark)
     processed_pmids = get_processed_pmids(existing_df=existing_df)
     
     # Filter out rows that have already been processed.
-    #spark_df = spark_df[~spark_df["pmcid"].isin(processed_pmids)].copy()
-    
-    spark_df = spark_df.filter[~spark_df["pmcid"].isin(processed_pmids)]
+    spark_df = spark_df.filter(~spark_df["pmcid"].isin(processed_pmids))
     total_tasks = spark_df.shape[0]
     logger.info(f"Skipping processing {processed_pmids} PMCID(s) that have already been processed.")
     logger.info(f"Processing {total_tasks} new PMCID(s) out of {spark_df.shape[0]} total.")
@@ -864,10 +848,6 @@ def run_pubmed_search(
         .option("overwriteSchema", "true") \
         .mode("append") \
         .saveAsTable(saved_file_name)
-    
-    #
-    pmcid = "pmcid"
-    spark.sql(f" CREATE OR REPLACE TABLE {saved_file_name} AS SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY {pmcid} ORDER BY {pmcid}) AS row_num FROM {saved_file_name}) tmp WHERE row_num = 1")
 
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
     result_df = spark.sql("SELECT * FROM {}".format(saved_file_name))
