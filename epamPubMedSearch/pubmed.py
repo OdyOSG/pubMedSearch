@@ -615,7 +615,8 @@ def run_pubmed_search(
   mesh_term, 
   rwd_terms, 
   date_term, 
-  pm_key, 
+  pm_key,
+  phenoName,
   saved_file_name, 
   return_max=2000,
   spark=None
@@ -627,6 +628,7 @@ def run_pubmed_search(
 
     Parameters:
         mesh_term (str): The MeSH term for the search (e.g., "Ischemic Attack, Transient").
+        phenoName (str): The name of the phenotype for the search
         rwd_terms (str): Additional search terms.
         date_term (str): Date constraints for the search.
         pm_key (str): API key for PubMed API access.
@@ -635,7 +637,7 @@ def run_pubmed_search(
         spark (SparkSession, optional): Spark session to use for writing and reading Delta tables.
 
     Returns:
-        pd.DataFrame or Spark DataFrame: The DataFrame read back from the Delta table.
+        pd.DataFrame: The DataFrame read back from the Delta table.
     """
     import re
     import pandas as pd
@@ -824,14 +826,13 @@ def run_pubmed_search(
     else:
         spark_df = spark.createDataFrame(searchOutputDf)
     
-    # Create phenotype variable out of mesh_term provided
-    pheno = mesh_term.replace('PubMedSearchDf', '')
+    # # Create phenotype variable out of mesh_term provided
+    # pheno = mesh_term.replace('PubMedSearchDf', '')
+    # # Remove any gaps and special characters
+    # pheno = re.sub(r'(?<!^)(?=[A-Z])', ' ', pheno).title()
     
-    # Remove any gaps and special characters
-    pheno = re.sub(r'(?<!^)(?=[A-Z])', ' ', pheno).title()
-    
-    # Add the column to the data frame
-    spark_df = spark_df.withColumn('phenotype', lit(pheno))
+    # Add 'phenotype' column to the data frame
+    spark_df = spark_df.withColumn('phenotype', lit(phenoName))
     
     # Load Delta table to filter out already added PMCID values
     existing_df = load_existing_delta_data(table_name=saved_file_name, spark=spark)
@@ -844,12 +845,9 @@ def run_pubmed_search(
     spark_df.write.format("delta") \
         .mode("append") \
         .saveAsTable(saved_file_name)
-
-
-    #.option("overwriteSchema", "true") \
     
     # Read back the Delta table into a Spark DataFrame and convert it to a pandas DataFrame.
-    result_df = spark.sql("SELECT * FROM {} WHERE phenotype = '{}'".format(saved_file_name, mesh_term))
+    result_df = spark.sql("SELECT * FROM {} WHERE phenotype = '{}'".format(saved_file_name, phenoName))
     
     # Drop duplicate rows based on "pmcid" column
     result_df = result_df.dropDuplicates(subset=["pmcid"])
