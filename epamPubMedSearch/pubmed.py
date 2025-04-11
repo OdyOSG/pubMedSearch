@@ -840,7 +840,7 @@ def run_pubmed_search(
 
     # Write the Spark DataFrame to the Delta table with schema merging enabled.
     spark_df.write.format("delta") \
-        .option("overwriteSchema", "true") \
+        #.option("overwriteSchema", "true") \
         .mode("append") \
         .saveAsTable(saved_file_name)
 
