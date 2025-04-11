@@ -640,7 +640,7 @@ def run_pubmed_search(
     import re
     import pandas as pd
     from pyspark.sql.functions import lit, col
-    from pyspark.sql.types import StructType, StructField, StringType
+    from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
     # Construct and clean the full search query.
     full_search = f'"{mesh_term}"[Mesh] AND {rwd_terms} AND {date_term}'
@@ -684,17 +684,16 @@ def run_pubmed_search(
         StructField("results", StringType(), True),
         StructField("discussion", StringType(), True),
         StructField("log", StringType(), True),
-        StructField("run_log", StringType(), True)
-        # ,
-        # StructField("introductionHasCohortDefinition", StringType(), True),
-        # StructField("introductionHasMedicalCode", StringType(), True),
-        # StructField("methodsHasCohortDefinition", StringType(), True),
-        # StructField("methodsHasMedicalCode", StringType(), True),
-        # StructField("resultsHasCohortDefinition", StringType(), True),
-        # StructField("resultsHasMedicalCode", StringType(), True),
-        # StructField("discussionHasCohortDefinition", StringType(), True),
-        # StructField("discussionHasMedicalCode", StringType(), True),
-        # StructField("phenotype", StringType(), True)
+        StructField("run_log", StringType(), True),
+        StructField("introductionHasCohortDefinition", StringType(), True),
+        StructField("introductionHasMedicalCode", StringType(), True),
+        StructField("methodsHasCohortDefinition", StringType(), True),
+        StructField("methodsHasMedicalCode", StringType(), True),
+        StructField("resultsHasCohortDefinition", StringType(), True),
+        StructField("resultsHasMedicalCode", StringType(), True),
+        StructField("discussionHasCohortDefinition", StringType(), True),
+        StructField("discussionHasMedicalCode", StringType(), True),
+        StructField("phenotype", StringType(), True)
     ])
 
     # If the DataFrame is not empty, prepend run_info to each article's log and add a new column.
@@ -808,17 +807,16 @@ def run_pubmed_search(
             StructField("results", StringType(), True),
             StructField("discussion", StringType(), True),
             StructField("log", StringType(), True),
-            StructField("run_log", StringType(), True)
-            # ,
-            # StructField("introductionHasCohortDefinition", StringType(), True),
-            # StructField("introductionHasMedicalCode", StringType(), True),
-            # StructField("methodsHasCohortDefinition", StringType(), True),
-            # StructField("methodsHasMedicalCode", StringType(), True),
-            # StructField("resultsHasCohortDefinition", StringType(), True),
-            # StructField("resultsHasMedicalCode", StringType(), True),
-            # StructField("discussionHasCohortDefinition", StringType(), True),
-            # StructField("discussionHasMedicalCode", StringType(), True),
-            # StructField("phenotype", StringType(), True)
+            StructField("run_log", StringType(), True),
+            StructField("introductionHasCohortDefinition", StringType(), True),
+            StructField("introductionHasMedicalCode", StringType(), True),
+            StructField("methodsHasCohortDefinition", StringType(), True),
+            StructField("methodsHasMedicalCode", StringType(), True),
+            StructField("resultsHasCohortDefinition", StringType(), True),
+            StructField("resultsHasMedicalCode", StringType(), True),
+            StructField("discussionHasCohortDefinition", StringType(), True),
+            StructField("discussionHasMedicalCode", StringType(), True),
+            StructField("phenotype", StringType(), True)
         ])
         spark_df = spark.createDataFrame([], empty_schema)
     else:
