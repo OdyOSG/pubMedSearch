@@ -780,9 +780,11 @@ def run_pubmed_search(
             # Indicator for cohort definition terms.
             cohort_col = f"{section}HasCohortDefinition"
             searchOutputDf[cohort_col] = searchOutputDf[section].apply(has_cohort_definition)
+            searchOutputDf[cohort_col] = searchOutputDf[cohort_col].astype(int)
             # Indicator for medical code patterns.
             med_code_col = f"{section}HasMedicalCode"
             searchOutputDf[med_code_col] = searchOutputDf[section].apply(has_medical_code)
+            searchOutputDf[med_code_col] = searchOutputDf[med_code_col].astype(int)
 
     # Convert to Spark DataFrame (or create an empty one with the correct schema).
     if searchOutputDf.empty:
