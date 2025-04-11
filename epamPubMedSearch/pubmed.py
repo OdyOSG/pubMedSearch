@@ -684,16 +684,17 @@ def run_pubmed_search(
         StructField("results", StringType(), True),
         StructField("discussion", StringType(), True),
         StructField("log", StringType(), True),
-        StructField("run_log", StringType(), True),
-        StructField("introductionHasCohortDefinition", StringType(), True),
-        StructField("introductionHasMedicalCode", StringType(), True),
-        StructField("methodsHasCohortDefinition", StringType(), True),
-        StructField("methodsHasMedicalCode", StringType(), True),
-        StructField("resultsHasCohortDefinition", StringType(), True),
-        StructField("resultsHasMedicalCode", StringType(), True),
-        StructField("discussionHasCohortDefinition", StringType(), True),
-        StructField("discussionHasMedicalCode", StringType(), True),
-        StructField("phenotype", StringType(), True)
+        StructField("run_log", StringType(), True)
+        # ,
+        # StructField("introductionHasCohortDefinition", StringType(), True),
+        # StructField("introductionHasMedicalCode", StringType(), True),
+        # StructField("methodsHasCohortDefinition", StringType(), True),
+        # StructField("methodsHasMedicalCode", StringType(), True),
+        # StructField("resultsHasCohortDefinition", StringType(), True),
+        # StructField("resultsHasMedicalCode", StringType(), True),
+        # StructField("discussionHasCohortDefinition", StringType(), True),
+        # StructField("discussionHasMedicalCode", StringType(), True),
+        # StructField("phenotype", StringType(), True)
     ])
 
     # If the DataFrame is not empty, prepend run_info to each article's log and add a new column.
@@ -807,16 +808,17 @@ def run_pubmed_search(
             StructField("results", StringType(), True),
             StructField("discussion", StringType(), True),
             StructField("log", StringType(), True),
-            StructField("run_log", StringType(), True),
-            StructField("introductionHasCohortDefinition", StringType(), True),
-            StructField("introductionHasMedicalCode", StringType(), True),
-            StructField("methodsHasCohortDefinition", StringType(), True),
-            StructField("methodsHasMedicalCode", StringType(), True),
-            StructField("resultsHasCohortDefinition", StringType(), True),
-            StructField("resultsHasMedicalCode", StringType(), True),
-            StructField("discussionHasCohortDefinition", StringType(), True),
-            StructField("discussionHasMedicalCode", StringType(), True),
-            StructField("phenotype", StringType(), True)
+            StructField("run_log", StringType(), True)
+            # ,
+            # StructField("introductionHasCohortDefinition", StringType(), True),
+            # StructField("introductionHasMedicalCode", StringType(), True),
+            # StructField("methodsHasCohortDefinition", StringType(), True),
+            # StructField("methodsHasMedicalCode", StringType(), True),
+            # StructField("resultsHasCohortDefinition", StringType(), True),
+            # StructField("resultsHasMedicalCode", StringType(), True),
+            # StructField("discussionHasCohortDefinition", StringType(), True),
+            # StructField("discussionHasMedicalCode", StringType(), True),
+            # StructField("phenotype", StringType(), True)
         ])
         spark_df = spark.createDataFrame([], empty_schema)
     else:
