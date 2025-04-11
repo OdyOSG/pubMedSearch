@@ -780,11 +780,11 @@ def run_pubmed_search(
             # Indicator for cohort definition terms.
             cohort_col = f"{section}HasCohortDefinition"
             searchOutputDf[cohort_col] = searchOutputDf[section].apply(has_cohort_definition)
-            searchOutputDf[cohort_col] = searchOutputDf[cohort_col].astype(int)
+            searchOutputDf[cohort_col] = searchOutputDf[cohort_col].astype(str)
             # Indicator for medical code patterns.
             med_code_col = f"{section}HasMedicalCode"
             searchOutputDf[med_code_col] = searchOutputDf[section].apply(has_medical_code)
-            searchOutputDf[med_code_col] = searchOutputDf[med_code_col].astype(int)
+            searchOutputDf[med_code_col] = searchOutputDf[med_code_col].astype(str)
 
     # Convert to Spark DataFrame (or create an empty one with the correct schema).
     if searchOutputDf.empty:
@@ -810,14 +810,14 @@ def run_pubmed_search(
             StructField("discussion", StringType(), True),
             StructField("log", StringType(), True),
             StructField("run_log", StringType(), True),
-            StructField("introductionHasCohortDefinition", IntegerType(), True),
-            StructField("introductionHasMedicalCode", IntegerType(), True),
-            StructField("methodsHasCohortDefinition", IntegerType(), True),
-            StructField("methodsHasMedicalCode", IntegerType(), True),
-            StructField("resultsHasCohortDefinition", IntegerType(), True),
-            StructField("resultsHasMedicalCode", IntegerType(), True),
-            StructField("discussionHasCohortDefinition", IntegerType(), True),
-            StructField("discussionHasMedicalCode", IntegerType(), True),
+            StructField("introductionHasCohortDefinition", StringType(), True),
+            StructField("introductionHasMedicalCode", StringType(), True),
+            StructField("methodsHasCohortDefinition", StringType(), True),
+            StructField("methodsHasMedicalCode", StringType(), True),
+            StructField("resultsHasCohortDefinition", StringType(), True),
+            StructField("resultsHasMedicalCode", StringType(), True),
+            StructField("discussionHasCohortDefinition", StringType(), True),
+            StructField("discussionHasMedicalCode", StringType(), True),
             StructField("phenotype", StringType(), True)
         ])
         spark_df = spark.createDataFrame([], empty_schema)
