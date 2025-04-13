@@ -645,7 +645,7 @@ def run_pubmed_search(
     from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 
     # Construct and clean the full search query.
-    full_search = f'"{mesh_term}" AND {rwd_terms} AND {date_term}'
+    full_search = f'({mesh_term}) AND ({rwd_terms}) AND ({date_term})'
     full_search = re.sub(r"\s+", " ", full_search.strip())
     print(f"Constructed full search query: {full_search}")
 
