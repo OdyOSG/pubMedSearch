@@ -24,6 +24,7 @@ setup(
       "requests",
       "PubMedFetcher",
       "XlsxWriter",
-      "IPython"
+      "IPython",
+      "dateparser"
     ]
 )
