@@ -18,7 +18,6 @@ License: Apache‐2.0
 from __future__ import annotations
 from importlib.metadata import version as _v
 
-from .query import build_query
 from .client import search
 from .utils import export_dataframe_to_excel
 from .query import rwdSearchTerms
