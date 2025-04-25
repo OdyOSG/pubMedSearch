@@ -1,30 +1,26 @@
 from setuptools import setup, find_packages
 
-# Standard Library Imports
-import os
-import re
-import time
-import xml.etree.ElementTree as ET
-
-
 setup(
-    name="epamPubMedSearch",  
-    version="0.0.1",          
-    author="EPAM",
-    author_email="",
-    description="PubMed Search",
-    long_description=open("README.md").read(),
+    name="pubmed-search",
+    version="0.1.0",
+    description="A Python wrapper around OHDSI/searchpubmed for RWD-focused PubMed searches",
+    long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/OdyOSG/pubMedSearch/tree/main",  
-    packages=find_packages(),  
+    url="https://github.com/your-org/pubmed-search",
+    author="Your Name",
+    license="Apache-2.0",
+    packages=find_packages(where="src"),
+    package_dir={"": "src"},
     install_requires=[
-      "pyspark",
-      "numpy",
-      "pandas",
-      "requests",
-      "PubMedFetcher",
-      "XlsxWriter",
-      "IPython",
-      "dateparser"
-    ]
+        "searchpubmed @ git+https://github.com/OHDSI/searchpubmed.git@develop#egg=searchpubmed",
+        "pubMedSearch @ git+https://github.com/OdyOSG/pubMedSearch.git@develop#egg=pubMedSearch",
+    ],
+    python_requires=">=3.7",
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: OS Independent",
+    ],
+    include_package_data=True,
+    zip_safe=False,
 )
