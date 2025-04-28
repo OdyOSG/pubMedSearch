@@ -9,7 +9,7 @@ from datetime import date
 from ohdsi_utils.boolean_formatter import pretty_boolean
 
 from searchpubmed.pubmed import fetch_pubmed_fulltexts as _fetch
-from searchpubmed.query_builder import STRATEGY3_OPTS, build_query
+from searchpubmed.query_builder import STRATEGY3_OPTS, STRATEGY2_OPTS, build_query
 
 
 def append_calendar_year_range_to_query(
@@ -49,7 +49,7 @@ if not logger.hasHandlers():
 def search(
     query: list[str],
     *,
-    rwd_terms: str | None = build_query(STRATEGY3_OPTS),
+    rwd_terms: str | None = build_query(STRATEGY2_OPTS),
     year_from: int | None = 2010,
     year_to: int | None = 3000,
     api_key: str | None = None,
