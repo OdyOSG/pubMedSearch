@@ -5,10 +5,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pubmed-search"
-version = "0.0.1"
-description = "Opinionated wrapper around searchpubmed for observational RWD literature retrieval"
+version = "0.4.0"
+description = "Lightweight, opinionated wrapper around searchpubmed – refactored"
 authors = [
-    {name = "ChatGPT refactor bot", email = "noreply@example.com"}
+    {name = "ChatGPT Refactor Bot", email = "bot@example.com"},
 ]
 license = {text = "Apache-2.0"}
 readme = "README.md"
@@ -16,15 +16,13 @@ requires-python = ">=3.9"
 dependencies = [
     "searchpubmed>=0.2.6",
     "pandas>=1.5",
-    "requests",
-    "beautifulsoup4",
     "click>=8",
     "xlsxwriter; extra == 'excel'",
+    "openpyxl; extra == 'excel'",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "ruff"]
-excel = ["xlsxwriter", "openpyxl"]
+dev = ["pytest", "ruff", "black"]
 
 [project.scripts]
 pubmed-search = "pubmed_search.cli:cli"
