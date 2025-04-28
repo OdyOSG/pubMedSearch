@@ -19,7 +19,6 @@ from __future__ import annotations
 from importlib.metadata import version as _v
 
 from .client import search
-from .utils import export_dataframe_to_excel
 from .query import rwdSearchTerms
 
 __all__ = ["search", "export_dataframe_to_excel"]
