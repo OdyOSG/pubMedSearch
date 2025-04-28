@@ -1,7 +1,0 @@
-dist
-/*.egg-info
-.Rproj.user
-/*.Rproj
-.Rhistory
-.RData
-misc

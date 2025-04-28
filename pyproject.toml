@@ -17,6 +17,7 @@ dependencies = [
     "searchpubmed>=0.3.1",
     "pandas>=1.5",
     "click>=8",
+	"ohdsi_utils",
 ]
 
 [project.optional-dependencies]

@@ -6,6 +6,7 @@ import sys
 from typing import Any
 import pandas as pd
 from datetime import date
+from ohdsi_utils.boolean_formatter import pretty_boolean
 
 from searchpubmed.pubmed import fetch_pubmed_fulltexts as _fetch
 from searchpubmed.query_builder import STRATEGY3_OPTS, build_query
@@ -79,6 +80,7 @@ def search(
     )
 
     df.attrs["query"] = q
+    df.attrs["query_pretty"] = pretty_boolean(q)
     return df
 
 
