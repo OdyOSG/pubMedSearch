@@ -17,8 +17,6 @@ dependencies = [
     "searchpubmed>=0.2.6",
     "pandas>=1.5",
     "click>=8",
-    "xlsxwriter; extra == 'excel'",
-    "openpyxl; extra == 'excel'",
 ]
 
 [project.optional-dependencies]
