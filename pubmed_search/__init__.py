@@ -1,8 +1,7 @@
 
 from importlib.metadata import version as _v
 
-from .client import search
-from .query import rwdSearchTerms
+from .client import search, rwdSearchTerms
 
 __all__ = ["search"]
 
