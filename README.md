@@ -127,3 +127,162 @@ If this tool speeds up your literature reviews, please cite the underlying *sear
 ## Acknowledgements
 
 Thanks to the NCBI / PubMed team for the freely available *E‑utilities* API.
+
+
+```
+(
+	(
+		(
+
+			("Substance-Related Disorders"[Mesh] OR 
+				"Behavior, Addictive"[Mesh] OR 
+				"Addictive Behavior"[Mesh] OR 
+				"Substance Abuse, Intravenous"[Mesh] OR 
+				"Drug Users"[Mesh] OR 
+				"Addiction Medicine"[Mesh] OR 
+				"Substance Withdrawal Syndrome"[Mesh] OR 
+				"Substance Abuse, Oral"[Mesh] OR 
+				"Substance Abuse, Inhalant"[Mesh] OR 
+				substance use disorder*[tiab] OR 
+				drug use disorder*[tiab] OR 
+				substance misuse[tiab] OR 
+				drug misuse[tiab] OR 
+				substance depend*[tiab] OR 
+				drug depend*[tiab] OR 
+				substance abuse[tiab] OR 
+				drug abuse[tiab] OR 
+				addictive behavio?r[tiab] OR 
+				addiction[tiab] OR 
+				addicted person*[tiab] OR 
+				"nonmedical use"[tiab]"non-medical use"[tiab] OR 
+				illicit drug use[tiab] OR 
+				recreational drug use[tiab] OR 
+				problematic use[tiab] OR 
+				polysubstance use[tiab] OR 
+				poly-substance use[tiab] OR 
+				chemical depend*[tiab] OR 
+				compulsive drug use[tiab] OR 
+				drug seeking[tiab] OR 
+				SUD[tiab]
+			) AND 
+			
+			(
+				(	
+					("Observational Study"[Publication Type]) OR 
+					("Retrospective Studies"[Mesh]) OR 
+					(observational[tiab]) OR 
+					(retrospective[tiab]) OR 
+					("retrospective analysis"[tiab]) OR 
+					("retrospective analyses"[tiab]) OR 
+					("retrospective review"[tiab]) OR 
+					("retrospective study"[tiab]) OR 
+					("case-control"[tiab]) OR 
+					("case control"[tiab]) OR 
+					("cohort study"[tiab]) OR 
+					("cohort analysis"[tiab]) OR 
+					("chart review"[tiab]) OR 
+					("medical record review"[tiab]) OR 
+					("record review"[tiab]) OR 
+					("database study"[tiab]) OR 
+					("non-interventional"[tiab]) OR 
+					("non interventional"[tiab]) OR 
+					("nonrandomized"[tiab]) OR 
+					("non randomized"[tiab]) OR 
+					("historical cohort"[tiab]) OR 
+					("archival data"[tiab]) OR 
+					("longitudinal study"[tiab]) OR 
+					("comparative effectiveness research"[tiab]) OR 
+					("real world data"[tiab]) OR 
+					("real-world data"[tiab]) OR 
+					("real world evidence"[tiab]) OR 
+					("real-world evidence"[tiab])
+				) AND 	
+				
+				(
+					("claims data") OR 
+					("claims analysis") OR 
+					("claims database") OR 
+					("administrative data") OR 
+					("registry study") OR 
+					("registry analysis") OR 
+					("registry data") OR 
+					("real-world") OR 
+					("real world") OR 
+					("real-world evidence") OR 
+					("secondary data analysis") OR 
+					("electronic health record") OR 
+					(EMR) OR 
+					(EHR) OR 
+					("insurance claims") OR 
+					("administrative claims data") OR 
+					("health care data") OR 
+					("healthcare data")
+				) AND 
+				
+				(
+					(phenotype) OR 
+					(phenotyping algorithm) OR 
+					(computable phenotype) OR 
+					(ICD codes) OR 
+					(ICD-9) OR 
+					(ICD-10) OR 
+					(positive predictive value) OR 
+					(PPV)
+				) AND 
+				(
+					(SEER) OR 
+					(NHANES) OR 
+					(Medicare) OR 
+					(Medicaid) OR 
+					("VA data") OR 
+					("Veterans Affairs") OR 
+					(Sentinel) OR 
+					(HCUP) OR 
+					(NSQIP) OR 
+					(Denmark/epidemiology[Mesh]) OR 
+					(National Health Insurance Research[Mesh]) OR 
+					("General Practice Research Database") OR 
+					("Clinical Practice Research Datalink") OR 
+					("The Health Improvement Network") OR 
+					("Taiwan National Health Insurance Research Database") OR 
+					("Health Insurance Review and Assessment Service") OR 
+					(BIFAP) OR 
+					(SIDIAP) OR 
+					(QResearch) OR 
+					(Truven) OR 
+					(Merativ) OR 
+					(Optum) OR 
+					(Medstat) OR 
+					("Nationwide Inpatient Sample") OR 
+					(PharMetrics) OR 
+					(PHARMO) OR 
+					(IMS) OR 
+					(IQVIA) OR 
+					("Premier database")
+				) NOT 
+				(
+					("Clinical Trial"[Publication Type]) OR 
+					("Randomized Controlled Trial"[Publication Type]) OR 
+					("Controlled Clinical Trial"[Publication Type]) OR 
+					("Prospective Studies"[Mesh]) OR 
+					("Case Reports"[Publication Type]) OR 
+					("Systematic Review"[Publication Type]) OR 
+					("Meta-Analysis"[Publication Type]) OR 
+					("Editorial"[Publication Type]) OR 
+					("Letter"[Publication Type]) OR 
+					("Comment"[Publication Type]) OR 
+					("News"[Publication Type]) OR 
+					("pilot study"[tiab]) OR 
+					("pilot projects"[Mesh]) OR 
+					("double-blind"[tiab]) OR 
+					("placebo-controlled"[tiab]) OR 
+					("Genetics"[Mesh]) OR 
+					("Genotype"[Mesh]) OR 
+					("biomarker"[tiab])
+				)
+			)
+		)
+	) AND 
+	("2010"[PDAT] : "3000"[PDAT])
+)
+```
