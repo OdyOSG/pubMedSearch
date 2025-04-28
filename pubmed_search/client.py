@@ -59,40 +59,15 @@ if not logger.hasHandlers():
     logger.addHandler(_handler)
     logger.setLevel(logging.INFO)
 
-# ---------------------------------------------------------------------------
-# Helper: pretty-print a PubMed query with indentation and line breaks.
-# ---------------------------------------------------------------------------
-
-def _beautify_query(q: str, indent: int = 2) -> str:
-    """Return *q* with newlines and indentation after parentheses / AND / OR.
-
-    Quoted phrases are kept intact so "type 2 diabetes" is one token.
-    """
-    tokens = re.findall(r'"[^" ]*[^" ]*"|\(|\)|AND|OR|[^()" ]+', q)
-    depth = 0
-    out: list[str] = []
-    for tok in tokens:
-        if tok == '(':          # opening paren
-            out.append(' ' * (depth * indent) + '(')
-            depth += 1
-        elif tok == ')':        # closing paren
-            depth -= 1
-            out.append(' ' * (depth * indent) + ')')
-        elif tok in {'AND', 'OR'}:  # logical operators
-            out.append(' ' * (depth * indent) + tok)
-        else:                  # regular term/field/quoted phrase
-            out.append(' ' * (depth * indent) + tok)
-    return '\n'.join(out)
-
 
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
-
+from searchpubmed.query_builder import STRATEGY3_OPTS
 def search(
     query: list[str],
     *,
-    rwd_terms: str | None = None,
+    rwd_terms: str | None = build_query(STRATEGY3_OPTS),
     year_from: int | None = 2010,
     year_to: int | None = 3000,
     api_key: str | None = None,
@@ -117,9 +92,6 @@ def search(
     # 3) Inject PDAT boundaries via append_calendar_year_range_to_query helper
     q = append_calendar_year_range_to_query(q, year_from=year_from, year_to=year_to)
 
-    # 4) Log the pretty-printed form so it shows up in notebook output
-    logger.info("PubMed final query (pretty):\n%s", _beautify_query(q))
-
     # 5) Delegate to the backend fetcher
     df: pd.DataFrame = _fetch(
         query=q,
@@ -131,7 +103,6 @@ def search(
 
     # 6) Attach raw and pretty query for provenance / debugging
     df.attrs["query"] = q
-    df.attrs["query_pretty"] = _beautify_query(q)
     return df
 
 __all__ = ["search"]

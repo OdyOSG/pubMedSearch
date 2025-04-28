@@ -22,5 +22,5 @@ from .client import search
 from .utils import export_dataframe_to_excel
 from .query import rwdSearchTerms
 
-__all__ = ["search", "export_dataframe_to_excel", "rwdSearchTerms"]
+__all__ = ["search", "export_dataframe_to_excel"]
 __version__ = "0.2.0"
