@@ -7,7 +7,6 @@ $ python -m pubmed_search "Asthma"
 from __future__ import annotations
 import click, sys, pathlib
 from .client import search
-from .utils import export_dataframe_to_excel
 
 @click.command(context_settings={"help_option_names": ["-h", "--help"]})
 @click.argument("mesh_term", metavar="MESH_TERM")
