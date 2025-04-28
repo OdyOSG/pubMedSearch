@@ -85,3 +85,9 @@ def search(
 
 
 __all__ = ["search"]
+
+
+
+def rwdSearchTerms(opts=STRATEGY2_OPTS):
+    """Return a ready‑made Boolean block for observational RWD studies."""
+    return build_query(opts)
